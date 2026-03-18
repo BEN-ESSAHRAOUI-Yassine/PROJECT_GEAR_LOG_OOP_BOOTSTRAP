@@ -1,76 +1,69 @@
-<?php
-function canEditAssets(){
-    return $_SESSION['role']==='Admin' || $_SESSION['role']==='Technician';
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Edit Asset</title>
-<link rel="stylesheet" href="../assets/css/style.css">
+    <title>Edit Asset</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
+
+<div class="container mt-4">
 
 <h2>Edit Asset</h2>
 
-<?php if (!empty($errors)): ?>
-<div style="color:red">
-<?php foreach ($errors as $error): ?>
-<p><?= htmlspecialchars($error) ?></p>
-<?php endforeach; ?>
-</div>
-<?php endif; ?>
+<a href="index.php" class="btn btn-secondary mb-3">← Back</a>
 
-<form method="POST">
+<form method="POST" action="index.php?action=update&id=<?= $asset['id'] ?>">
 
-<label>Serial Number</label><br>
-<input name="serial"
-value="<?= htmlspecialchars($_POST['serial'] ?? $asset['serial_number']) ?>">
+    <div class="mb-3">
+        <label class="form-label">Device Name</label>
+        <input name="device_name" class="form-control"
+               value="<?= htmlspecialchars($asset['device_name']) ?>" required>
+    </div>
 
-<br><br>
+    <div class="mb-3">
+        <label class="form-label">Serial Number</label>
+        <input name="serial_number" class="form-control"
+               value="<?= htmlspecialchars($asset['serial_number']) ?>" required>
+    </div>
 
-<label>Device Name</label><br>
-<input name="name"
-value="<?= htmlspecialchars($_POST['name'] ?? $asset['device_name']) ?>">
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <input type="number" name="price" class="form-control"
+               value="<?= $asset['price'] ?>" required>
+    </div>
 
-<br><br>
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-select">
 
-<label>Price</label><br>
-<input type="number" step="0.01"
-name="price"
-value="<?= htmlspecialchars($_POST['price'] ?? $asset['price']) ?>">
+            <option value="Available" <?= $asset['status']=='Available'?'selected':'' ?>>Available</option>
 
-<br><br>
+            <option value="Deployed" <?= $asset['status']=='Deployed'?'selected':'' ?>>Deployed</option>
 
-<label>Status</label><br>
-<select name="status">
-<option value="Available" <?= ($asset['status']=="Available")?"selected":"" ?>>Available</option>
-<option value="Deployed" <?= ($asset['status']=="Deployed")?"selected":"" ?>>Deployed</option>
-<option value="Under Repair" <?= ($asset['status']=="Under Repair")?"selected":"" ?>>Under Repair</option>
-<option value="Unavailable" <?= ($asset['status']=="Unavailable")?"selected":"" ?>>Unavailable</option>
-</select>
+            <option value="Under Repair" <?= $asset['status']=='Under Repair'?'selected':'' ?>>Under Repair</option>
 
-<br><br>
+            <option value="Unavailable" <?= $asset['status']=='Unavailable'?'selected':'' ?>>Unavailable</option>
 
-<label>Category</label><br>
-<select name="category">
-<?php foreach ($categories as $c): ?>
-<option value="<?= $c['id'] ?>"
-<?= ($asset['category_id']==$c['id'])?"selected":"" ?>>
-<?= htmlspecialchars($c['name']) ?>
-</option>
-<?php endforeach; ?>
-</select>
+        </select>
+    </div>
 
-<br><br>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select name="category_id" class="form-select">
+            <?php foreach($categories as $c): ?>
+                <option value="<?= $c['id'] ?>"
+                    <?= ($asset['category_id']==$c['id'])?'selected':'' ?>>
+                    <?= htmlspecialchars($c['name']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
 
-<button type="submit">Update Asset</button>
+    <button class="btn btn-primary">Update</button>
 
 </form>
 
-<br>
-<a href="index.php">Back</a>
+</div>
 
 </body>
 </html>

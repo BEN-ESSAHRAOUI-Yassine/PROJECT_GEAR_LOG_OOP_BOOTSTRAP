@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GearLog Login</title>
-<link rel="stylesheet" href="../assets/css/style.css">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="login-page">
+<body class="bg-light">
 
-<div class="login-container">
-    <form method="POST" class="login-form">
+<div class="container d-flex justify-content-center align-items-center vh-100">
 
-        <div class="login-header">
-            <h2>U S E R L O G I N</h2>
-        </div>
+    <div class="card p-4 shadow" style="width: 350px;">
+
+        <h3 class="text-center mb-3">Login</h3>
 
         <?php if(!empty($error)): ?>
-            <p class="error"><?= htmlspecialchars($error) ?></p>
+            <div class="alert alert-danger">
+                <?= htmlspecialchars($error) ?>
+            </div>
         <?php endif; ?>
 
-        <input name="username" placeholder="Username" required>
+        <form method="POST" action="index.php?action=login">
 
-        <input type="password" name="password" placeholder="Password" required>
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input name="username" class="form-control" required>
+            </div>
 
-        <button type="submit">LOGIN</button>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
 
-    </form>
+            <button class="btn btn-primary w-100">Login</button>
+
+        </form>
+
+    </div>
+
 </div>
 
 </body>
